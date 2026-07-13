@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Menu — Délices</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #1a1a1a;
+      color: #fff;
+      height: 100dvh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background: #c8953a;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+    }
+
+    header h1 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    header span {
+      font-size: 0.75rem;
+      opacity: 0.85;
+    }
+
+    .pdf-container {
+      flex: 1;
+      overflow: hidden;
+    }
+
+    .pdf-container embed,
+    .pdf-container iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+    }
+
+    .fallback {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      gap: 16px;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .fallback p {
+      color: #aaa;
+      font-size: 0.95rem;
+    }
+
+    .btn {
+      background: #c8953a;
+      color: #fff;
+      text-decoration: none;
+      padding: 14px 28px;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      transition: background 0.2s;
+    }
+
+    .btn:hover {
+      background: #b07d2c;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>🍽️ Délices</h1>
+    <span>Notre Menu</span>
+  </header>
+
+  <div class="pdf-container" id="pdfContainer">
+    <embed
+      src="menu-delice.pdf"
+      type="application/pdf"
+      width="100%"
+      height="100%"
+      id="pdfEmbed"
+    />
+  </div>
+
+  <div class="fallback" id="fallback">
+    <p>Votre navigateur ne peut pas afficher le PDF directement.</p>
+    <a class="btn" href="menu-delice.pdf" download>📥 Télécharger le menu</a>
+    <a class="btn" href="menu-delice.pdf" target="_blank" style="background:#444">Ouvrir le menu</a>
+  </div>
+
+  <script>
+    // Sur iOS Safari, <embed> ne fonctionne pas — on bascule vers un lien
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    if (isIOS) {
+      document.getElementById('pdfContainer').style.display = 'none';
+      const fallback = document.getElementById('fallback');
+      fallback.style.display = 'flex';
+      // Sur iOS on peut quand même tenter d'ouvrir le PDF dans un nouvel onglet
+      fallback.innerHTML = `
+        <p>Appuyez pour voir le menu :</p>
+        <a class="btn" href="menu-delice.pdf" target="_blank">📄 Voir le menu</a>
+      `;
+    }
+  </script>
+
+</body>
+</html>
